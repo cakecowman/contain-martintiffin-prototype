@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dmrfw4enrstff"]
+
+[ext_resource type="Texture2D" uid="uid://texmnlu1qco0" path="res://Assets/CharacterSprites/Player.png" id="2_hf3d0"]
+[ext_resource type="Script" uid="uid://c8yonhkttu0y8" path="res://Scripts/player_sprite.gd" id="4_n0i0j"]
+
+[node name="PlayerSprite" type="Sprite2D" unique_id=1345766618]
+texture_filter = 1
+scale = Vector2(0.0737969, 0.073540196)
+script = ExtResource("4_n0i0j")
+freq = 18.0
+amp = 0.1
+tilt = 0.23
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=774796679]
+scale = Vector2(0.9462116, 0.91664344)
+texture = ExtResource("2_hf3d0")
+offset = Vector2(0, -32)

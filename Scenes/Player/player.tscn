@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://c3dgwqk3dhyag"]
+
+[ext_resource type="Script" uid="uid://bv7670ueanu17" path="res://Scripts/PlayerController/player.gd" id="1_a3d8c"]
+[ext_resource type="Texture2D" uid="uid://texmnlu1qco0" path="res://Assets/CharacterSprites/Player.png" id="2_htcer"]
+[ext_resource type="Script" uid="uid://c4cgq30fmg163" path="res://Scripts/PlayerController/StateMachine/state_machine.gd" id="3_htcer"]
+[ext_resource type="Script" uid="uid://drmbdij1ifrkf" path="res://Scripts/PlayerController/StateMachine/idle_state.gd" id="4_dd0ac"]
+[ext_resource type="Script" uid="uid://bau01jrlmkew6" path="res://Scripts/PlayerController/StateMachine/walk_state.gd" id="5_0u5uq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3d8c"]
+radius = 48.0
+height = 96.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dd0ac"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_htcer")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_htcer")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=200824293]
+scale = Vector2(0.9865857, 0.7816945)
+script = ExtResource("1_a3d8c")
+move_up_action = "up"
+move_down_action = "down"
+move_left_action = "left"
+move_right_action = "right"
+attack_action = "attack"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1084450228]
+shape = SubResource("CapsuleShape2D_a3d8c")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="." unique_id=1007723119]
+position = Vector2(-16.217548, -10.234178)
+scale = Vector2(0.99999994, 0.99999994)
+sprite_frames = SubResource("SpriteFrames_dd0ac")
+animation = &"walk"
+autoplay = "idle"
+
+[node name="MovementStateMachine" type="Node" parent="." unique_id=1591135983 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_htcer")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="MovementStateMachine" unique_id=2085396889]
+script = ExtResource("4_dd0ac")
+metadata/_custom_type_script = "uid://drmbdij1ifrkf"
+
+[node name="WalkState" type="Node" parent="MovementStateMachine" unique_id=1221046363]
+script = ExtResource("5_0u5uq")
+metadata/_custom_type_script = "uid://bau01jrlmkew6"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1593223230]

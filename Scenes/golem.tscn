@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://bt5i2k6v8f0k8"]
+
+[ext_resource type="Script" uid="uid://degd02a8tsmre" path="res://Scripts/EnemyLogic/golem.gd" id="1_3yf8f"]
+[ext_resource type="Texture2D" uid="uid://2xjtutcxpyra" path="res://Assets/Unsorted/monster ghost.png" id="2_tspt6"]
+[ext_resource type="Script" uid="uid://c4cgq30fmg163" path="res://Scripts/PlayerController/StateMachine/state_machine.gd" id="3_tspt6"]
+[ext_resource type="Script" uid="uid://bqprbrjm4d2mb" path="res://Scripts/EnemyLogic/idle_npc_state.gd" id="4_3yf8f"]
+[ext_resource type="Script" uid="uid://ci3mb664mfb4r" path="res://Scripts/EnemyLogic/walk_npc_state.gd" id="5_3yf8f"]
+[ext_resource type="Script" uid="uid://cwq4v4ob8utjp" path="res://Scripts/EnemyLogic/attack_state.gd" id="6_tspt6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2gh5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tspt6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bs7yq"]
+size = Vector2(43.516556, 41.005272)
+
+[node name="Golem" type="CharacterBody2D" unique_id=723792778 groups=["EnemyType"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_3yf8f")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="." unique_id=1114841487]
+scale = Vector2(0.37161055, 0.4922166)
+sprite_frames = SubResource("SpriteFrames_t2gh5")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=527006758]
+position = Vector2(-1.4339442, 1.4305115e-06)
+scale = Vector2(1.7724771, 1.5607748)
+shape = SubResource("RectangleShape2D_bs7yq")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=385146433]
+target_desired_distance = 20.0
+path_postprocessing = 1
+
+[node name="MovementStateMachine" type="Node" parent="." unique_id=1707495329 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_tspt6")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="MovementStateMachine" unique_id=1398182875]
+script = ExtResource("4_3yf8f")
+metadata/_custom_type_script = "uid://drmbdij1ifrkf"
+
+[node name="WalkState" type="Node" parent="MovementStateMachine" unique_id=450005479]
+script = ExtResource("5_3yf8f")
+metadata/_custom_type_script = "uid://bau01jrlmkew6"
+
+[node name="AttackState" type="Node" parent="MovementStateMachine" unique_id=1549604729]
+script = ExtResource("6_tspt6")
+
+[node name="EffectNPCState" type="Node" parent="MovementStateMachine" unique_id=1388610093]
+
+[node name="AttackNPCState" type="Node" parent="MovementStateMachine" unique_id=1298816904]
+
+[node name="SwingTimer" type="Timer" parent="." unique_id=1020185140]
+
+[node name="Timer" type="Timer" parent="." unique_id=1002756782]
+
+[connection signal="navigation_finished" from="NavAgent" to="." method="_on_nav_agent_navigation_finished"]
+[connection signal="timeout" from="Timer" to="MovementStateMachine/IdleState" method="_on_timer_timeout"]

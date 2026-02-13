@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cr0eli4008thp"]
+
+[ext_resource type="Script" uid="uid://dhii5ice3dda6" path="res://Scripts/altar.gd" id="1_w0d7v"]
+[ext_resource type="Texture2D" uid="uid://cyqjt7nsvbq52" path="res://Assets/Stair shield.png" id="2_y47gv"]
+[ext_resource type="Script" uid="uid://c6qoenhidya5e" path="res://Scripts/healthbar.gd" id="3_brtn5"]
+[ext_resource type="Texture2D" uid="uid://2b28x7e3kj7x" path="res://Assets/HudUI/healthbarUnder.png" id="3_y47gv"]
+[ext_resource type="Texture2D" uid="uid://cptthomjli0d7" path="res://Assets/HudUI/healthbarProgress.png" id="4_62brk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtrpd"]
+size = Vector2(80, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qtrpd"]
+radius = 136.0
+
+[node name="Altar" type="StaticBody2D" unique_id=248499433 groups=["Breakables"]]
+texture_filter = 2
+scale = Vector2(0.6772795, 0.6637386)
+script = ExtResource("1_w0d7v")
+
+[node name="Altartemp" type="Sprite2D" parent="." unique_id=528051911]
+position = Vector2(4.7683716e-07, 0)
+scale = Vector2(1.7989761, 1.7470376)
+texture = ExtResource("2_y47gv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=879597149]
+position = Vector2(0, 24)
+scale = Vector2(1, 0.98845565)
+shape = SubResource("RectangleShape2D_qtrpd")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=797457716]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1394273275]
+scale = Vector2(1.0021989, 1)
+shape = SubResource("CircleShape2D_qtrpd")
+debug_color = Color(0.92422926, 4.5050383e-05, 0.68272966, 0.41960785)
+
+[node name="CanvasLayer" type="Control" parent="." unique_id=1040559800]
+modulate = Color(1, 1, 1, 0.7529412)
+layout_mode = 3
+anchors_preset = 0
+offset_top = -96.42348
+offset_bottom = -96.42348
+scale = Vector2(1.0456815, 1.1892166)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer" unique_id=1335182231 node_paths=PackedStringArray("altar")]
+z_index = 10
+z_as_relative = false
+texture_filter = 1
+layout_mode = 0
+offset_left = -101.66353
+offset_top = -81.081535
+offset_right = -13.663528
+offset_bottom = -65.081535
+scale = Vector2(3.270049, 4.564198)
+texture_under = ExtResource("3_y47gv")
+texture_progress = ExtResource("4_62brk")
+script = ExtResource("3_brtn5")
+altar = NodePath("../..")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
